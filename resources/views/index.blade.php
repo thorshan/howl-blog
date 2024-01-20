@@ -6,12 +6,17 @@
 
 @section('content')
     <div class="container">
+
+        {{-- Alert Box Function --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
                 <strong>{{ session('success') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
+
+        {{-- Blog Create Form Control --}}
         <div class="d-flex justify-content-between align-items-center my-4">
             <h4 class="text-primary fw-bold">Blog Feeds</h4>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -73,9 +78,14 @@
                 </div>
             </div>
         </div>
+
+        {{-- Blog Search --}}
         <form class="form">
             <input type="search" class="form-control" placeholder="Search blog ...">
         </form>
+
+
+        {{-- Side Nav --}}
         <div class="row">
             <div class="col-2">
                 <div class="accordion" id="accordionExample">
@@ -120,33 +130,41 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
-                @foreach ($posts as $post)
-                    <a href="{{route('posts.show', $post->id)}}" class="text-decoration-none">
+
+            {{-- Blog Feeds --}}
+            @if ($posts)
+                <div class="col-8">
+                    @foreach ($posts as $post)
                         <div class="card mb-3">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="{{ asset($post->image) }}" class="img-fluid rounded-start"
-                                        alt="Post Image">
+                                    <a href="{{ route('posts.show', $post->id) }}" class="text-decoration-none">
+                                        <img src="{{ asset($post->image) }}" class="img-fluid rounded-start"
+                                            alt="Post Image">
+                                    </a>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title fw-bold fs-6">{{ $post->title }}</h5>
+                                        <a href="{{ route('posts.show', $post->id) }}" class="text-decoration-none">
+                                            <h5 class="card-title text-secondary fw-bold fs-6">{{ $post->title }}</h5>
+                                        </a>
                                         <p class="card-text"><small
                                                 class="text-primary">{{ $post->category->name }}</small></p>
                                         <p class="card-text">{{ Str::limit($post->content, 70, '  ...') }}</p>
                                         <p class="card-text d-flex justify-content-between align-items-center">
                                             <small
                                                 class="text-body-secondary">{{ $post->created_at->format('M d, Y') }}</small>
-                                            <small>By : <span class="text-primary">Author Name</span></small>
+                                            <small>By : <a href="#" class="text-primary text-decoration-none">{{$post->user->name}}</a></small>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @else
+                <small>Nothing to show</small>
+            @endif
         </div>
     </div>
 @endsection

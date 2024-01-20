@@ -8,11 +8,8 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    //
+    // Redirect to Post
     public function index(){
-        // $posts = Post::latest()->get();
-        $output["categories"] = Category::all();
-        $output["posts"] = Post::all();
-        return view("index", $output);
+        return redirect()->route('posts.index');   
     }
 }

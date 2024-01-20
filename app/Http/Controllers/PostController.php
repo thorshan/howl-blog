@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Intervention\Image\Image;
 
@@ -14,6 +15,9 @@ class PostController extends Controller
     public function index()
     {
         //
+        $output["categories"] = Category::all();
+        $output["posts"] = Post::all();
+        return view("index", $output);
     }
 
     /**
@@ -53,9 +57,11 @@ class PostController extends Controller
             $post->image = 'uploads/' . $fileName;
         }
 
+        $post->user_id = auth()->user()->id;
+
         $post->save();
 
-        return redirect()->route("home")->with("success", "Blog created successfully.");
+        return redirect()->route("posts.index")->with("success", "Blog created successfully.");
     }
 
 

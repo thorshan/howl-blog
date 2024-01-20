@@ -14,9 +14,12 @@ Route::post('/user/authenticate', [UserController::class,'authenticate'])->name(
 // Logut
 Route::post('/logout', [UserController::class,'logout'])->name('logout')->middleware('auth');
 
+// Default redirect to Posts
 Route::get('/', [IndexController::class,'index'])->name('home')->middleware('auth');
+
+// Posts
+Route::resource('/posts', PostController::class)->middleware('auth');
 
 Route::prefix('/user')->group(function () {
     Route::get('/dashboard', [UserController::class,'index'])->name('dashboard')->middleware('auth');
-    Route::resource('/posts', PostController::class)->middleware('auth');
 })->middleware('auth');

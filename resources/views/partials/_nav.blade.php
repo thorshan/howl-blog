@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top bg-body-tertiary">
     <div class="container">
-        <a class="navbar-brand" href="{{route('home')}}">
+        <a class="navbar-brand" href="{{route('posts.index')}}">
             <img src="{{ asset('logo.svg') }}" alt="Logo" width="30" height="24"
                 class="d-inline-block align-text-top">
             <span class="fw-bold">Howl</span>
@@ -20,7 +20,7 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="{{route('home')}}" class="nav-link">Blog feeds</a>
+                            <a href="{{route('posts.index')}}" class="nav-link">Blog feeds</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('dashboard')}}" class="nav-link">Profile</a>

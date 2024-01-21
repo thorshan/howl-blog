@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use App\Models\Post;
 
 class UserController extends Controller
 {
@@ -44,7 +43,7 @@ class UserController extends Controller
         $user = new User();
         $user->email = $formData["email"];
         $user->name = $formData["name"];
-        $user->password = $formData["password"];
+        $user->password = bcrypt($formData["password"]);
 
         $user->save();
 
@@ -55,19 +54,22 @@ class UserController extends Controller
 
     // Login
     public function authenticate(Request $request)
-    {
-        $formData = $request->validate([
-            "email" => ['required', 'email', Rule::unique('users')->ignore($request->email)],
-            "password" => "required|min:5",
-        ]);
+{
+    $formData = $request->validate([
+        "email" => "email|required",
+        "password" => "required|min:5",
+    ]);
 
-        if (auth()->attempt($formData)) {
-            $request->session()->regenerate();
-            return redirect()->route("home")->with("success", "User logged in successfully");
-        }
-
-        return back()->withErrors(["email" => "Invalid Credentials"])->onlyInput('email');
+    // Attempt to authenticate the user
+    if (auth()->attempt($formData)) {
+        $request->session()->regenerate();
+        return redirect()->route("home")->with("success", "User logged in successfully");
     }
+
+    // If authentication fails, redirect back with errors and old input
+    return back()->withErrors(["email" => "Invalid credentials"])->onlyInput('email');
+}
+
 
     // Logout
     public function logout(Request $request)

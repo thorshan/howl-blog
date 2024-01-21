@@ -80,14 +80,14 @@
         </div>
 
         {{-- Blog Search --}}
-        <form class="form">
-            <input type="search" class="form-control" placeholder="Search blog ...">
+        <form class="form" action="{{ route('home') }}" method="GET">
+            <input type="search" name="search" class="form-control" placeholder="Search blog ...">
         </form>
 
 
         {{-- Side Nav --}}
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -133,7 +133,7 @@
 
             {{-- Blog Feeds --}}
             @if ($posts)
-                <div class="col-8">
+                <div class="col-9">
                     @foreach ($posts as $post)
                         <div class="card mb-3">
                             <div class="row g-0">

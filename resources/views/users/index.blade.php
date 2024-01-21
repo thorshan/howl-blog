@@ -26,7 +26,7 @@
             <div class="col-10">
                 {{-- Alert Box Function --}}
                 @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+                    <div class="alert alert-primary alert-dismissible fade show my-3" role="alert">
                         <strong>{{ session('success') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -40,7 +40,7 @@
                             <a href="{{ route('edit.user', $user->id) }}" class="btn btn-primary">Edit</a>
                         </div>
                         <br>
-                        <div class="card border-primary p-3 my-3">
+                        <div class="card border-primary p-3">
                             <div class="row my-3 align-items-center">
                                 <div class="col-3">
                                     <img src="{{ asset($user->img) }}" class="image-fluid" width="200"
@@ -88,6 +88,22 @@
                                             </p>
                                         </div>
                                     </div>
+                                    <div class="card-footer d-flex align-items-center">
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-outline-primary">
+                                            <span class="material-symbols-outlined">
+                                                edit_document
+                                            </span>
+                                        </a>
+                                        <form action="{{ route('posts.destroy', $post->id) }}" method="post" class="form-row mt-3 ms-3" onsubmit="return confirm('Are you sure want to delete post?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-outline-danger btn-sm" class="mx-3">
+                                                <span class="material-symbols-outlined">
+                                                    delete_forever
+                                                </span>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -96,7 +112,10 @@
                     {{-- Post Section --}}
                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
                         tabindex="0">
-                        <h3 class="text-primary">Posts</h3>
+                        <div class="d-flex justify-content-between align-items-center my-3">
+                            <h3 class="text-primary">Posts</h3>
+                            <a href="{{ route('posts.create') }}" class="btn btn-primary">Add New</a>
+                        </div>
                         @foreach ($posts as $post)
                             <div class="card mb-3">
                                 <div class="row g-0">
@@ -109,7 +128,8 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <a href="{{ route('posts.show', $post->id) }}" class="text-decoration-none">
-                                                <h5 class="card-title text-secondary fw-bold fs-6">{{ $post->title }}</h5>
+                                                <h5 class="card-title text-secondary fw-bold fs-6">{{ $post->title }}
+                                                </h5>
                                             </a>
                                             <p class="card-text"><small
                                                     class="text-primary">{{ $post->category->name }}</small></p>
@@ -128,8 +148,8 @@
                     </div>
 
                     {{-- Privacy Section --}}
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"
-                        tabindex="0">
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                        aria-labelledby="v-pills-messages-tab" tabindex="0">
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button class="btn btn-danger">Logout</button>

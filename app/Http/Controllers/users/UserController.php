@@ -70,7 +70,7 @@ class UserController extends Controller
                 'email',
                 Rule::unique('users')->ignore(auth()->id()),
             ],
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif', // Adjust the allowed file types and size as needed
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192', // Adjust the allowed file types and size as needed
             'summary' => ['nullable', 'string', 'max:200'],
         ]);
     

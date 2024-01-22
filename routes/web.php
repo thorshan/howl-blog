@@ -25,6 +25,7 @@ Route::get('/', [IndexController::class,'index'])->name('home')->middleware('aut
 
 // Posts
 Route::resource('/posts', PostController::class)->middleware('auth');
+Route::get('/search', [PostController::class,'search'])->name('search')->middleware('auth');
 
 Route::prefix('/user')->group(function () {
     Route::get('/dashboard', [UserController::class,'index'])->name('dashboard')->middleware('auth');

@@ -13,11 +13,22 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $output["categories"] = Category::all();
-    $output["posts"] = Post::latest()->filter(request()->only('search'))->get();
-    return view("index", $output);
-}
+    {
+        $output["categories"] = Category::all();
+        $output["posts"] = Post::latest()->get();
+        return view("index", $output);
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search');
+
+        $posts = Post::where('title', 'like', '%' . $searchTerm . '%')
+            ->orWhere('content', 'like', '%' . $searchTerm . '%')
+            ->get();
+
+        return view('index', ['posts' => $posts, 'categories' => Category::all()]);
+    }
 
 
     /**
@@ -26,7 +37,7 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view("posts.create", ["posts"=> Post::all(), "categories" => Category::all()]);
+        return view("posts.create", ["posts" => Post::all(), "categories" => Category::all()]);
     }
 
     /**
@@ -72,7 +83,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
-        return view("posts.show", ["post"=> $post]);
+        return view("posts.show", ["post" => $post]);
     }
 
     /**
@@ -81,7 +92,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         //
-        return view("posts.edit", ["post"=> Post::find($id), "categories" => Category::all()]);
+        return view("posts.edit", ["post" => Post::find($id), "categories" => Category::all()]);
     }
 
     /**
@@ -91,7 +102,7 @@ class PostController extends Controller
     {
         //
 
-        if($post->user_id != auth()->user()->id){
+        if ($post->user_id != auth()->user()->id) {
             return abort(403, "Unauthorized Request");
         }
         $formData = $request->validate([
@@ -132,6 +143,6 @@ class PostController extends Controller
         //
         $post = Post::find($id);
         $post->delete();
-        return redirect()->route("dashboard")->with("success","Post deleted successfully.");
+        return redirect()->route("dashboard")->with("success", "Post deleted successfully.");
     }
 }

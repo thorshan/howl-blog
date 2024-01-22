@@ -80,60 +80,18 @@
         </div>
 
         {{-- Blog Search --}}
-        <form class="form" action="{{ route('home') }}" method="GET">
-            <input type="search" name="search" class="form-control" placeholder="Search blog ...">
+        <form class="d-flex align-items-center my-3" action="{{ route('search') }}" method="GET"
+            onsubmit="return validateSearchForm()">
+            <input type="search" name="search" id="searchInput" class="form-control" placeholder="Search blog ..."
+                oninput="toggleSearchButton()">
+            <button class="btn btn-outline-primary ms-3" id="searchButton" disabled>Search</button>
         </form>
 
 
-        {{-- Side Nav --}}
         <div class="row">
-            <div class="col-3">
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Category
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                Category List
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Genere
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                Genere List
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Author
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                Author
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {{-- Blog Feeds --}}
-            @if ($posts)
-                <div class="col-9">
+            <div class="col">
+                @if (count($posts) > 0)
                     @foreach ($posts as $post)
                         <div class="card mb-3">
                             <div class="row g-0">
@@ -154,17 +112,39 @@
                                         <p class="card-text d-flex justify-content-between align-items-center">
                                             <small
                                                 class="text-body-secondary">{{ $post->created_at->format('M d, Y') }}</small>
-                                            <small>By : <a href="#" class="text-primary text-decoration-none">{{$post->user->name}}</a></small>
+                                            <small>By : <a href=""
+                                                    class="text-primary text-decoration-none">{{ $post->user->name }}</a>
+                                            </small>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                </div>
-            @else
-                <small>Nothing to show</small>
-            @endif
+                @else
+                    <p class="d-flex justify-content-center mt-5">Nothing to show</p>
+                @endif
+            </div>
         </div>
+        <script>
+            // Function to enable/disable the search button based on the input value
+            function toggleSearchButton() {
+                var searchTerm = document.getElementById('searchInput').value.trim();
+                var searchButton = document.getElementById('searchButton');
+
+                // Enable the button if the search term is not empty, otherwise disable it
+                searchButton.disabled = searchTerm === '';
+            }
+
+            // Function to validate the form on submission
+            function validateSearchForm() {
+                var searchTerm = document.getElementById('searchInput').value.trim();
+
+                // Return false to prevent form submission if the search term is empty
+                return searchTerm !== '';
+            }
+        </script>
     </div>
+
+
 @endsection

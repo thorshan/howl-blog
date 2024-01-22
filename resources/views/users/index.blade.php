@@ -21,7 +21,6 @@
                         data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab"
                         aria-controls="v-pills-messages" aria-selected="false">Privacy</button>
                 </div>
-
             </div>
             <div class="col-10">
                 {{-- Alert Box Function --}}
@@ -88,22 +87,6 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="card-footer d-flex align-items-center">
-                                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-outline-primary">
-                                            <span class="material-symbols-outlined">
-                                                edit_document
-                                            </span>
-                                        </a>
-                                        <form action="{{ route('posts.destroy', $post->id) }}" method="post" class="form-row mt-3 ms-3" onsubmit="return confirm('Are you sure want to delete post?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-outline-danger btn-sm" class="mx-3">
-                                                <span class="material-symbols-outlined">
-                                                    delete_forever
-                                                </span>
-                                            </button>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -141,6 +124,25 @@
                                                         class="text-primary text-decoration-none">{{ $post->user->name }}</a></small>
                                             </p>
                                         </div>
+                                    </div>
+                                    <div class="card-footer d-flex align-items-center">
+                                        <a href="{{ route('posts.edit', $post->id) }}"
+                                            class="btn btn-sm btn-outline-primary">
+                                            <span class="material-symbols-outlined">
+                                                edit_document
+                                            </span>
+                                        </a>
+                                        <form action="{{ route('posts.destroy', $post->id) }}" method="post"
+                                            class="form-row mt-3 ms-3"
+                                            onsubmit="return confirm('Are you sure want to delete post?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-outline-danger btn-sm" class="mx-3">
+                                                <span class="material-symbols-outlined">
+                                                    delete_forever
+                                                </span>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
